@@ -1,0 +1,89 @@
+<app-app-layout [showBackground]="true">
+  <div class="flex flex-1 items-center justify-center px-6">
+    <div class="w-full max-w-lg text-center">
+      @if (isGenerating$ | async) {
+        <!-- Loading State -->
+        <div class="animate-fade-in flex flex-col items-center gap-6">
+          <div class="h-12 w-12 animate-spin rounded-full border-2 border-foreground/20 border-t-foreground/60"></div>
+          <p class="text-body text-text-secondary animate-pulse-subtle">Generating OTP…</p>
+        </div>
+      } @else {
+        <!-- OTP Display -->
+        <div class="flex flex-col items-center">
+          @if (otp$ | async; as otp) {
+            <!-- Label -->
+            <p class="text-caption uppercase tracking-widest text-text-tertiary animate-fade-in mb-2">
+              Your One-Time Password
+            </p>
+
+            <!-- OTP Display - NEW STYLE -->
+            <div class="mt-6 animate-fade-in-scale" [style.animation-delay]="'0.1s'">
+              @if ((length$ | async) === 6) {
+                <!-- For 6-digit OTP: Two rows of 3 digits each -->
+                <div class="flex flex-col gap-4">
+                  <!-- First row -->
+                  <div class="flex justify-center gap-6">
+                    @for (digit of otp.slice(0, 3).split(''); track $index) {
+                      <div class="otp-digit-large">{{ digit }}</div>
+                    }
+                  </div>
+                  <!-- Second row -->
+                  <div class="flex justify-center gap-6">
+                    @for (digit of otp.slice(3, 6).split(''); track $index) {
+                      <div class="otp-digit-large">{{ digit }}</div>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <!-- For 3-digit OTP: Single row -->
+                <div class="flex justify-center gap-6">
+                  @for (digit of otp.split(''); track $index) {
+                    <div class="otp-digit-large">{{ digit }}</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- Shimmer line -->
+            <div class="mt-8 h-px w-32 animate-shimmer rounded-full bg-gradient-to-r from-transparent via-foreground/20 to-transparent"></div>
+
+            <!-- Timer Section -->
+            <div class="mt-8 flex flex-col items-center gap-3 animate-fade-in" [style.animation-delay]="'0.2s'">
+              <!-- Expires text -->
+              <p class="text-body-small text-text-secondary">
+                Expires in <span [class]="isUrgent ? 'text-red-500 font-semibold' : 'text-foreground font-medium'" class="transition-colors duration-300">{{ timeRemaining$ | async }}</span> seconds
+              </p>
+
+              <!-- Timer Bar -->
+              <div class="h-1.5 w-48 overflow-hidden rounded-full bg-muted/50">
+                <div
+                  [class]="isUrgent ? 'bg-gradient-to-r from-red-500 to-red-400 animate-pulse-subtle' : 'bg-gradient-to-r from-blue-500 to-cyan-400'"
+                  class="h-full rounded-full transition-all duration-1000 ease-linear"
+                  [style.width.%]="(timerPercentage$ | async)"
+                ></div>
+              </div>
+
+              <!-- Countdown text -->
+              <p
+                [class]="isUrgent ? 'text-red-500 font-bold' : 'text-text-secondary font-medium'"
+                class="text-lg tracking-wider transition-all duration-300"
+              >
+                Expires in <span class="font-mono">{{ timeRemaining$ | async }}s</span>
+              </p>
+            </div>
+
+            <!-- Info badge -->
+            <div class="mt-10 animate-fade-in" [style.animation-delay]="'0.3s'">
+              <span class="inline-flex items-center gap-2 rounded-full border border-border/50 bg-muted/30 px-4 py-2 text-caption text-text-tertiary backdrop-blur-sm">
+                <span class="h-1.5 w-1.5 rounded-full bg-green-400 animate-dot-pulse"></span>
+                {{ (length$ | async) }}-digit OTP · Auto-refreshes
+              </span>
+            </div>
+
+
+          }
+        </div>
+      }
+    </div>
+  </div>
+</app-app-layout>

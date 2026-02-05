@@ -1,0 +1,53 @@
+<div class="relative w-full" #trigger>
+  <!-- Trigger -->
+  <div
+    (click)="toggleOpen($event)"
+    [class]="getTriggerClasses()"
+    role="button"
+    tabindex="0"
+    [attr.aria-expanded]="isOpen"
+  >
+    @if (value || placeholder) {
+      <span class="truncate">
+        {{ getDisplayValue() }}
+      </span>
+    }
+    @if (!value && !placeholder) {
+      <span class="text-muted-foreground">
+        Select length
+      </span>
+    }
+    <svg
+      class="ml-2 h-4 w-4 opacity-50 transition-transform"
+      [class.rotate-180]="isOpen"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </div>
+
+  <!-- Dropdown -->
+  @if (isOpen) {
+    <div
+      #dropdown
+      class="absolute z-50 mt-1 w-full min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80 slide-in-from-top-1"
+    >
+      <div class="max-h-60 overflow-y-auto p-1">
+        @for (option of options; track option.value) {
+          <div
+            (click)="selectOption(option.value, $event)"
+            [class]="getOptionClasses(option.value)"
+            role="option"
+            [attr.aria-selected]="value === option.value"
+            class="px-2 py-1.5"
+          >
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

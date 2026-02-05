@@ -1,0 +1,41 @@
+<div class="relative flex min-h-screen flex-col overflow-hidden">
+  <app-navbar></app-navbar>
+
+  <!-- Animated background elements -->
+  @if (showBackground) {
+    <div class="pointer-events-none fixed inset-0 -z-10">
+      <!-- Animated grid -->
+      <div class="bg-grid-animated absolute inset-0 animate-grid-shift opacity-40"></div>
+
+      <!-- Floating dots -->
+      <div class="bg-dots-animated absolute inset-0 animate-breathe"></div>
+
+      <!-- Horizontal animated lines -->
+      <div class="animated-line top-1/4 w-full animate-line-h" [style.animation-delay]="'0s'"></div>
+      <div class="animated-line top-1/2 w-full animate-line-h" [style.animation-delay]="'2s'"></div>
+      <div class="animated-line top-3/4 w-full animate-line-h" [style.animation-delay]="'4s'"></div>
+
+      <!-- Vertical animated lines -->
+      <div class="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-border to-transparent animate-line-v" [style.animation-delay]="'1s'"></div>
+      <div class="absolute left-1/2 top-0 h-full w-px bg-gradient-to-b from-transparent via-border to-transparent animate-line-v" [style.animation-delay]="'3s'"></div>
+      <div class="absolute left-3/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-border to-transparent animate-line-v" [style.animation-delay]="'5s'"></div>
+
+      <!-- Floating particles -->
+      <div class="absolute left-[10%] top-[20%] h-2 w-2 rounded-full bg-foreground/10 animate-float" [style.animation-delay]="'0s'"></div>
+      <div class="absolute left-[80%] top-[30%] h-1.5 w-1.5 rounded-full bg-foreground/10 animate-float" [style.animation-delay]="'1s'"></div>
+      <div class="absolute left-[30%] top-[70%] h-2.5 w-2.5 rounded-full bg-foreground/10 animate-float" [style.animation-delay]="'2s'"></div>
+      <div class="absolute left-[70%] top-[60%] h-1 w-1 rounded-full bg-foreground/10 animate-float" [style.animation-delay]="'3s'"></div>
+      <div class="absolute left-[50%] top-[40%] h-3 w-3 rounded-full bg-foreground/5 animate-drift"></div>
+
+      <!-- Corner accents -->
+      <div class="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-foreground/[0.02] blur-3xl animate-breathe"></div>
+      <div class="absolute -bottom-20 -right-20 h-40 w-40 rounded-full bg-foreground/[0.02] blur-3xl animate-breathe" [style.animation-delay]="'2s'"></div>
+    </div>
+  }
+
+  <main class="flex flex-1 flex-col">
+    <ng-content></ng-content>
+  </main>
+
+  <app-footer></app-footer>
+</div>
