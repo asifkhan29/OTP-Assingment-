@@ -75,7 +75,6 @@ export class OtpService {
     };
   }
 
-  /* ================= TIMER ================= */
 
   private startTimer(): void {
     this.clearTimer();
@@ -96,7 +95,6 @@ export class OtpService {
     }, 1000);
   }
 
-  /* ================= HELPERS ================= */
 
   private patch(partial: Partial<OtpState>) {
     this.stateSubject.next({
